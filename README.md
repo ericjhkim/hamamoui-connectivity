@@ -2,9 +2,7 @@
 
 This is an implementation of theory presented in Hamamoui's paper [1], maintaining graph connectivity through the matching of unlabled spanning trees.
 
-## Results Preview
-
-Animated previews showcasing how agents in the swarm interact and move based on predefined rules, for the 2D and 3D cases:
+## Results
 
 ![Matching Frequencies](https://github.com/ericjhkim/hamamoui-connectivity/blob/main/fm_by_order.png)
 
