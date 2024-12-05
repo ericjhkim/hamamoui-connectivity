@@ -6,7 +6,7 @@ This is an implementation of theory presented in Hamamoui's paper [1], maintaini
 
 Animated previews showcasing how agents in the swarm interact and move based on predefined rules, for the 2D and 3D cases:
 
-![Matching Frequencies](https://raw.githubusercontent.com/ericjhkim/hamaoui-connectivity/main/fm_by_order.png)
+![Matching Frequencies](https://github.com/ericjhkim/hamamoui-connectivity/blob/main/fm_by_order.png)
 
 _The figure shows an important finding of the paper - that the probabiltiy of a isomorphic match increases with graph order._
 
