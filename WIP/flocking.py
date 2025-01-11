@@ -56,7 +56,7 @@ def main():
             # Plot the swarm
             if CREATE_GIF:
                 last = t+dt > SIM_TIME
-                tools.create_frame(swarm, A, t, frame_count, last, swarm.data[0], swarm.tgt_Q)
+                tools.create_frame(swarm, A, swarm.A_T1, t, frame_count, last, swarm.data[0], swarm.tgt_Q)
                 frame_count += 1
 
     # Calculate adjacency adherence
@@ -152,8 +152,8 @@ class Agents:
         Compute the control command for agent i with Laplacian, target-seeking, and PD control.
         """
         # Current position and velocity of agent i
-        q_i = self.states[:self.DIMS, i]         # Position
-        v_i = self.states[self.DIMS:, i]    # Velocity
+        q_i = self.states[:self.DIMS, i]        # Position
+        v_i = self.states[self.DIMS:, i]        # Velocity
         
         # Target position for agent i
         k = self.mapping[i]
@@ -166,9 +166,9 @@ class Agents:
         target_term = q_k - q_i
 
         # Control command (combined terms)
-        k1 = 0.2  # Laplacian term weight
-        k2 = 1.0  # Target-seeking weight
-        k_d = 0.7  # Damping term weight
+        k1 = 0.1  # Laplacian term weight
+        k2 = 0.9  # Target-seeking weight
+        k_d = 0.9  # Damping term weight
         u = k1 * neighbors_influence + k2 * target_term - k_d * v_i
 
         return u

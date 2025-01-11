@@ -134,7 +134,7 @@ def plot_separation(data):
     plt.grid()
     plt.show()
 
-def create_frame(swarm, A, t, frame_count, last, initial, final, F=None):
+def create_frame(swarm, A, A_st, t, frame_count, last, initial, final, F=None):
     # Turn off interactive mode
     plt.ioff()
 
@@ -205,11 +205,20 @@ def create_frame(swarm, A, t, frame_count, last, initial, final, F=None):
 
         for i in range(N_AGENTS):
             for j in range(N_AGENTS):
-                if i != j and A[i, j] == 1:
-                    x_values = [swarm.states[0, i], swarm.states[0, j]]
-                    y_values = [swarm.states[1, i], swarm.states[1, j]]
-                    z_values = [swarm.states[2, i], swarm.states[2, j]]
-                    ax.plot(x_values, y_values, z_values, color='gray', linewidth=0.5, zorder=1)
+                if i != j:
+                    color = None
+                    if A_st[i, j] == 1 and A[i, j] == 1:
+                       color = "green"
+                    elif A_st[i, j] == 0 and A[i, j] == 1:
+                        color = "gray"
+                    elif A_st[i, j] == 1 and A[i, j] == 0:
+                        color = "red"
+
+                    if color is not None:
+                        x_values = [swarm.states[0, i], swarm.states[0, j]]
+                        y_values = [swarm.states[1, i], swarm.states[1, j]]
+                        z_values = [swarm.states[2, i], swarm.states[2, j]]
+                        ax.plot(x_values, y_values, z_values, color=color, linewidth=0.5, zorder=1)
 
         for i in range(N_AGENTS):
             x, y, z = swarm.states[0, i], swarm.states[1, i], swarm.states[2, i]
