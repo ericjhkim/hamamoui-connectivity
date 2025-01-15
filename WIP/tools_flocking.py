@@ -195,9 +195,9 @@ def create_frame(swarm, A, A_st, t, frame_count, last, initial, final, F=None):
         # 3D plot
         fig = plt.figure(figsize=(5,4), dpi=300)
         ax = fig.add_subplot(111, projection='3d')
-        ax.set_xlim([-30, 30])
-        ax.set_ylim([-30, 30])
-        ax.set_zlim([-10, 50])
+        ax.set_xlim([0, 20])
+        ax.set_ylim([0, 20])
+        ax.set_zlim([0, 20])
         ax.set_title(f'Simulation Time: {t:.2f}s')
         ax.set_xlabel('X Position')
         ax.set_ylabel('Y Position')
@@ -241,8 +241,8 @@ def create_frame(swarm, A, A_st, t, frame_count, last, initial, final, F=None):
 
         # Plot the points with labels
         for i, (xi, yi, zi) in enumerate(zip(x, y, z)):
-            ax.scatter(xi, yi, zi, c='b', marker='o')
-            ax.text(xi, yi, zi, f'{i}', color='red')
+            ax.scatter(xi, yi, zi, c='b', marker='o', s=4)
+            # ax.text(xi, yi, zi, f'{i}', color='red')
 
         # Extract x, y, z coordinates
         x = final[0,:]
@@ -251,8 +251,8 @@ def create_frame(swarm, A, A_st, t, frame_count, last, initial, final, F=None):
 
         # Plot the points with labels
         for i, (xi, yi, zi) in enumerate(zip(x, y, z)):
-            ax.scatter(xi, yi, zi, c='r', marker='o')
-            ax.text(xi, yi, zi, f'{i}', color='green')
+            ax.scatter(xi, yi, zi, c='r', marker='o', s=4)
+            # ax.text(xi, yi, zi, f'{i}', color='green')
 
     else:
         # 2D plot

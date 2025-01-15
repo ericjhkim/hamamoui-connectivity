@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 
 # Constants
 N_AGENTS = 6                                # Number of agents
-SENSOR_RANGE = 20                           # Distance at which agents can sense each other
+SENSOR_RANGE = 25                           # Distance at which agents can sense each other
 SIM_TIME = 10                               # Simulation time in seconds
 dt = 0.1                                    # Simulation interval
 DIMS = 3                                    # Number of dimensions
