@@ -29,7 +29,7 @@ _Using a Laplacian-based linear PD controller, the agents converge to the target
 With a different tuning, we can observe different behaviour.
 
 ![Simulation Undershoot](https://github.com/ericjhkim/hamamoui-connectivity/blob/main/visualizations/anim_20250212_074853.gif)
-_Note that in this case, the gain of the Laplacian term is sufficient, preventing connections from breaking, but agents do not reach their target positions._
+_Note that in this case, the gain of the Laplacian term is sufficient, preventing connections from breaking, but agents are further from their target positions._
 
 ## References
   1. Hamaoui, M. (2024). *Connectivity Maintenance through Unlabeled Spanning Tree Matching*. J Intell Robot Syst 110, 15 [doi:10.1007/s10846-024-02048-9](https://doi.org/10.1007/s10846-024-02048-9)
