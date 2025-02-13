@@ -25,8 +25,9 @@ N_AGENTS = 8                                # Number of agents
 SENSOR_RANGE = 25                           # Distance at which agents can sense each other
 D_MIN = 5                                   # Minimum distance between agents (for random generation of initial position)
 D_MAX = SENSOR_RANGE*1.5                    # Maximum distance between agents (for random generation of initial position)
+T_VEC = [20.0, 20.0, 0.0]                   # Translation vector (for random generation of initial position)
 
-SIM_TIME = 20                               # Simulation time in seconds
+SIM_TIME = 10                               # Simulation time in seconds
 dt = 0.1                                    # Simulation interval
 DIMS = 3                                    # Number of dimensions
 
@@ -35,7 +36,7 @@ TIMESTAMP = datetime.now().strftime("%Y%m%d_%H%M%S")
 gif_path = f"visualizations/anim_{TIMESTAMP}.gif"
 
 # Controls
-SAVE_DATA = False
+SAVE_DATA = True
 CREATE_GIF = True
 SEED = 1
 np.random.seed(SEED)
@@ -45,7 +46,7 @@ def main():
     print("Starting simulation...")
 
     # Initialize swarm object
-    swarm = Agents(N_AGENTS,SENSOR_RANGE,dt)
+    swarm = Agents(N_AGENTS,SENSOR_RANGE,T_VEC,dt)
 
     # Run simulation
     t = 0.0
@@ -105,23 +106,23 @@ def main():
     tools.plot_separation(np.array(swarm.data))
 
 class Agents:
-    def __init__(self, N_AGENTS, SENSOR_RANGE, dt):
+    def __init__(self, N_AGENTS, SENSOR_RANGE, T_VEC, dt):
         
         self.N_AGENTS = N_AGENTS
         self.SENSOR_RANGE = SENSOR_RANGE                    # Sensor range
         self.dt = dt
         self.d_min = D_MIN                                  # Minimum distance between agents (for random generation)
         self.d_max = D_MAX                                  # Maximum distance between agents (for random generation)
+        self.t_vec = T_VEC
 
         # Initial graph
         self.states = np.concatenate((self.generate_3d_coordinates(N_AGENTS, self.d_min, self.d_max),np.zeros((3,N_AGENTS))),axis=0)
         self.A1 = self.get_adjacency(self.states)
         self.G1 = nx.from_numpy_array(self.A1)
-        # print(f"Initial State Adjacency Matrix:\n{self.get_adjacency(self.states)}")
         tools.plot_agents_3d(self.states,self.A1)
 
         # Target graph
-        self.tgt_Q = np.concatenate((self.generate_3d_coordinates(N_AGENTS, self.d_min, self.d_max),np.zeros((3,N_AGENTS))),axis=0)
+        self.tgt_Q = np.concatenate((self.generate_3d_coordinates(N_AGENTS, self.d_min, self.d_max, translation=self.t_vec),np.zeros((3,N_AGENTS))),axis=0)
         self.A2 = self.get_adjacency(self.tgt_Q)
         self.G2 = nx.from_numpy_array(self.A2)
         tools.plot_agents_3d(self.tgt_Q,self.A2)
@@ -188,9 +189,9 @@ class Agents:
         target_term = q_k - q_i
 
         # Control command (combined terms)
-        k1 = 0.15                           # Laplacian term weight
+        k1 = 0.01                           # Laplacian term weight
         k2 = 1.0                            # Target-seeking weight
-        k_d = 0.9                           # Damping term weight
+        k_d = 0.8                           # Damping term weight
         u = k1 * neighbors_influence + k2 * target_term - k_d * v_i
 
         return u
@@ -213,7 +214,7 @@ class Agents:
         gm = isomorphism.GraphMatcher(tree1, tree2)
         return gm.is_isomorphic()
 
-    def generate_3d_coordinates(self, N, d_min, d_max):
+    def generate_3d_coordinates(self, N, d_min, d_max, translation=[0,0,0]):
         """
         Generate N 3D coordinates with a minimum distance of d_min and a maximum distance of d_max.
         This is to nondeterministically initialize agents' locations.
@@ -230,6 +231,7 @@ class Agents:
         while len(coordinates) < N:
             new_point = np.random.uniform(0, d_max, size=3)
             if is_valid_point(new_point, np.array(coordinates)):
+                new_point += translation
                 coordinates.append(new_point)
 
         return np.transpose(coordinates)
